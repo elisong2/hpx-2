@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "XP2",
-  description: "PCPP for cars!",
+  title: "HPX-2",
+  description: "PCPartPicker for cars!",
 };
 
 export default function RootLayout({
