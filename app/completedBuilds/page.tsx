@@ -2,8 +2,8 @@ import BuildCard from "@/app/components/BuildCard";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function BuildsPage() {
-  const supabase = createClient();
-    .from("builds")
+  const { data: posts, error } = await createClient()
+    .from("posts")
     .select(
       `
       id,
@@ -26,14 +26,14 @@ export default async function BuildsPage() {
       <h1>Car Builds</h1>
 
       <section>
-        {builds?.map((build) => (
+        {posts?.map((post) => (
           <BuildCard
-            key={build.id}
-            id={build.id}
-            title={build.title}
-            description={build.description}
-            coverImageUrl={build.cover_image_url}
-            username={build.profiles.username}
+            key={post.id}
+            id={post.id}
+            title={post.title}
+            description={post.description}
+            coverImageUrl={post.cover_image_url}
+            username={post.profiles.username}
           />
         ))}
       </section>

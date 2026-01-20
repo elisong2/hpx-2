@@ -16,7 +16,7 @@ export default function BuildCard({
   username,
 }: BuildCardProps) {
   return (
-    <Link href={`/builds/${id}`}>
+    <Link href={`/posts/${id}`}>
       <article>
         {coverImageUrl && <img src={coverImageUrl} alt={title} />}
 
