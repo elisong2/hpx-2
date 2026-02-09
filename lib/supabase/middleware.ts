@@ -37,8 +37,8 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
   
-  if (
-    !user &&           // if ur not signed in, and ur not going to 'x', go to signin
+  if ( // if ur not signed in, and ur not going to 'x', go to signin | basically these are public facing routes
+    !user &&           
     !request.nextUrl.pathname.startsWith('/account/login') &&
     !request.nextUrl.pathname.startsWith('/account/signup') &&
     !request.nextUrl.pathname.startsWith('/auth') &&
@@ -46,6 +46,7 @@ export async function updateSession(request: NextRequest) {
 
     !request.nextUrl.pathname.startsWith('/completedBuilds') &&
     !request.nextUrl.pathname.startsWith('/guides') &&
+    !request.nextUrl.pathname.startsWith('/about') &&
     // !request.nextUrl.pathname.startsWith('/about') &&
     // !request.nextUrl.pathname.startsWith('/')
     !(request.nextUrl.pathname === '/')

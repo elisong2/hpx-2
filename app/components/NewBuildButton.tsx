@@ -1,13 +1,10 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-// import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { signout } from "@/utils/auth-actions";
 import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 
-const LoginButton = () => {
+export default function NewBuildButton() {
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
@@ -45,35 +42,19 @@ const LoginButton = () => {
     };
   }, [supabase, router]);
 
-  //
-
-  //
-
   if (user) {
     return (
       <button
-        className="fixed top-4 right-4 z-50"
+        className=""
         onClick={async () => {
           await supabase.auth.signOut();
           setUser(null);
-          router.push("/account/logout");
+          router.push("/newBuild");
         }}
       >
-        Log out
+        Create a New Build!
       </button>
     );
   }
-
-  return (
-    <button
-      className="fixed top-4 right-4 z-50"
-      onClick={() => {
-        router.push("/account/login");
-      }}
-    >
-      Login
-    </button>
-  );
-};
-
-export default LoginButton;
+  return null;
+}

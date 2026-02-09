@@ -24,48 +24,52 @@ export default async function NavbarDynamic() {
     username = data?.username;
   }
 
-  // return (
-  //   <nav className="navbar bg-base-100">
-  //     <Link href="/" className="btn btn-ghost text-xl">
-  //       MyApp
-  //     </Link>
-  //     <div className="ml-auto">
-  //       {user ? (
-  //         <div className="flex items-center gap-2">
-  //           <span className="text-sm">{user.email}</span>
-  //           <SignOutButton />
-  //         </div>
-  //       ) : (
-  //         <>
-  //           <Link className="btn btn-ghost text-l" href="/account/login">
-  //             Login
-  //           </Link>
-  //           <Link className="btn btn-ghost text-l" href="/account/signup">
-  //             Sign Up
-  //           </Link>
-  //         </>
-  //       )}
-  //     </div>
-  //   </nav>
-  // );
-
   return (
     <nav className="navbar bg-base-100 shadow-sm">
       <Link className="btn btn-ghost text-xl" href="/">
         Home
       </Link>
       <Link className="btn btn-ghost text-xl" href="/completedBuilds">
-        Builds
+        Gallery
       </Link>
       <Link className="btn btn-ghost text-xl" href="/guides">
         Guides
       </Link>
+      <Link className="btn btn-ghost text-xl" href="/parts">
+        Parts
+      </Link>
+
       <Link className="btn btn-ghost text-xl" href="/about">
         About
       </Link>
     </nav>
   );
 }
+
+// return (
+//   <nav className="navbar bg-base-100">
+//     <Link href="/" className="btn btn-ghost text-xl">
+//       MyApp
+//     </Link>
+//     <div className="ml-auto">
+//       {user ? (
+//         <div className="flex items-center gap-2">
+//           <span className="text-sm">{user.email}</span>
+//           <SignOutButton />
+//         </div>
+//       ) : (
+//         <>
+//           <Link className="btn btn-ghost text-l" href="/account/login">
+//             Login
+//           </Link>
+//           <Link className="btn btn-ghost text-l" href="/account/signup">
+//             Sign Up
+//           </Link>
+//         </>
+//       )}
+//     </div>
+//   </nav>
+// );
 
 // import { createClient } from "@/lib/supabase/server";
 // import Link from "next/link";

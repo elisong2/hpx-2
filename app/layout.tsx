@@ -6,6 +6,7 @@ import React from "react";
 import Link from "next/link";
 import NavbarDynamic from "./components/navbar";
 import SupabaseAuthListener from "./components/authlistener";
+import LoginButton from "./components/LoginLogoutButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,6 +21,14 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "HPX-2",
   description: "PCPartPicker for cars!",
+  openGraph: {
+    title: "HPX-2 Home Page",
+    description: "PCPartPicker for cars!",
+    url: "https://hpx2.vercel.app/",
+    siteName: "HPX-2",
+    locale: "en-US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -33,8 +42,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavbarDynamic />
+        {/* <LoginButton /> */}
         {/* <SupabaseAuthListener /> */}
         {children}
+
+        <footer className="flex items-center">Temp footer</footer>
       </body>
     </html>
   );

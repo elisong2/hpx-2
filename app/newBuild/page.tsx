@@ -1,35 +1,61 @@
-"use client";
+import { createClient } from "@/lib/supabase/server";
+import NewBuildForm from "../components/NewBuildForm";
 
-import { newBuildHelper } from "@/utils/helpers";
+export default async function NewBuildPage() {
+  const supabase = await createClient();
 
-export default function NewBuildPage() {
+  const { data: makes } = await supabase
+    .from("makes")
+    .select("id, name")
+    .order("name");
+
+  const { data: models } = await supabase
+    .from("models")
+    .select("id, name, make_id")
+    .order("name");
+
   return (
     <>
-      <div>
-        <h2>Create New Build</h2>
+      <h2>Create New Build</h2>
+      <div className="">
+        <NewBuildForm makes={makes ?? []} models={models ?? []} />
       </div>
-
-      <form action={newBuildHelper}>
-        <div>
-          <label>Title</label>
-          <input type="text" name="title" required />
-        </div>
-
-        <div>
-          <label>Description</label>
-          <textarea name="description" required rows={5} />
-        </div>
-
-        <div>
-          <label>Upload Images</label>
-          <input type="file" name="image" accept="image/*" multiple required />
-        </div>
-
-        <button type="submit">Create Build</button>
-      </form>
     </>
   );
 }
+
+// "use client";
+
+// import { newBuildHelper } from "@/utils/helpers";
+
+// export default function NewBuildPage() {
+//   return (
+//     <>
+//       <div>
+//         <h2>Create New Build</h2>
+//       </div>
+
+//       <form action={newBuildHelper}>
+//         <div>
+//           <label>Title</label>
+//           <input type="text" name="title" required />
+//         </div>
+
+//         <div>
+//           <label>Description</label>
+//           <textarea name="description" required rows={5} />
+//         </div>
+
+//         <div>
+//           <label>Upload Images</label>
+//           <input type="file" name="image" accept="image/*" multiple required />
+//         </div>
+
+//         <button type="submit">Create Build</button>
+//       </form>
+//     </>
+//   );
+// }
 
 // "use server";
 
