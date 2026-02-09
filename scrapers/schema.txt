@@ -1,0 +1,22 @@
+vendors
+- id (uuid)
+- name
+- base_url
+
+parts
+- id (uuid)
+- vendor_id (fk)
+- name
+- brand
+- part_number
+- category
+- product_url
+- image_url
+
+prices
+- id (uuid)
+- part_id (fk)
+- price
+- currency
+- in_stock
+- scraped_at
