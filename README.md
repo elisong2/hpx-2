@@ -1,13 +1,24 @@
-This is HPX-2, intended to be the PCPartPicker for cars. Currently in development. Major focuses are UI and a web scraping pipeline to aggregate products. User auth and image storage/gallery are complete. Be sure to visit again!
+Currently in development. This is HPX-2, intended to be the PCPartPicker for cars. Akin to PCPartPicker, you will be able to view an aggregated list of available parts on the market and filter them according to what is compatible with your vehicle. Be sure to visit again!
 
 Current goals:
 
 - UI styling
 - web scraping algorithm
 
+Notes:
+
+- User auth and image storage/gallery are complete.
+
 Stack:
 
 - Typescript, Next.js, React, Tailwind, Supabase/Postgres, Playwright, Vercel
+
+Features:
+
+- Parts aggregation and price comparison
+- Completed builds gallery
+- Forums
+- Guides
 
 Limitations:
 
