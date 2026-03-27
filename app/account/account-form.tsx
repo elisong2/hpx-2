@@ -130,27 +130,3 @@ export default function AccountForm({ user }: { user: User | null }) {
     </div>
   );
 }
-
-{
-  /* <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="url"
-          value={website || ""}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div> */
-}
-
-{
-  /* <div>
-        <label htmlFor="fullName">Full Name</label>
-        <input
-          id="fullName"
-          type="text"
-          value={fullname || ""}
-          onChange={(e) => setFullname(e.target.value)}
-        />
-      </div> */
-}

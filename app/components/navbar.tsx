@@ -2,9 +2,9 @@
 // app/components/NavbarDynamic.tsx
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import SignOutButton from "@/app/components/SignOutButton"; // direct import!
-import SignOutButtonWrapper from "./SignOutButtonWrapper";
-import LoginButton from "./LoginLogoutButton";
+// import SignOutButton from "@/app/components/SignOutButton"; // direct import!
+// import SignOutButtonWrapper from "./SignOutButtonWrapper";
+// import LoginButton from "./LoginLogoutButton";
 
 export default async function NavbarDynamic() {
   const supabase = await createClient();

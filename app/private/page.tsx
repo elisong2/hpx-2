@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 
+// delete maybe
 export default async function PrivatePage() {
   const supabase = await createClient();
 

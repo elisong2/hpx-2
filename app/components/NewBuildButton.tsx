@@ -52,7 +52,7 @@ export default function NewBuildButton() {
           router.push("/newBuild");
         }}
       >
-        Create a New Build!
+        Create a new build!
       </button>
     );
   }
