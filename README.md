@@ -1,4 +1,4 @@
-Currently in development. This is HPX-2, intended to be the PCPartPicker for cars. Akin to PCPartPicker, you will be able to view an aggregated list of available parts on the market and filter them according to what is compatible with your vehicle. Be sure to visit again!
+Currently in development. This is HPX-2, intended to be the PCPartPicker for cars. Akin to PCPartPicker, you will be able to view aggregated lists of available parts on the market and filter them according to what is compatible with your vehicle, projects of other users, and guides. Be sure to visit again!
 
 Current goals:
 
