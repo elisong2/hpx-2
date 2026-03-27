@@ -1,6 +1,7 @@
 import { Page } from 'playwright';
 import { BASE_URL, SELECTORS } from './selectors';
 
+// add more browsers
 export async function scrapeCategory(
   page: Page,
   categoryPath: string

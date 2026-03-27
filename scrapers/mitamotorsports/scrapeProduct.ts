@@ -1,6 +1,7 @@
 import { Page } from 'playwright';
 import { SELECTORS } from './selectors';
 
+// add more browsers
 export interface ScrapedProduct {
   name: string;
   price: number | null;

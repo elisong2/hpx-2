@@ -3,8 +3,7 @@ const config = {
 };
 
 export default config;
-
-
+// tailwind
 // export default {
 //   plugins: {
 //     tailwindcss: {},

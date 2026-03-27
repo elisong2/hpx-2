@@ -5,6 +5,7 @@ export async function middleware(request: NextRequest) {
   return await updateSession(request)
 }
 
+// reference for next.js upgrade
 export const config = {
   matcher: [
     /*

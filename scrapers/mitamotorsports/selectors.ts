@@ -5,6 +5,7 @@ export const CATEGORY_URLS = [
   '/collections/suspension',
 ];
 
+// add more browsers
 export const SELECTORS = {
   productCard: '.product-item',
   productLink: 'a.product-link',

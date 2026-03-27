@@ -3,6 +3,7 @@ import { CATEGORY_URLS } from './selectors';
 import { scrapeCategory } from './scrapeCategory';
 import { scrapeProduct } from './scrapeProduct';
 
+// add more browsers
 async function run() {
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
