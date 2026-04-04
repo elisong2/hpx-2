@@ -21,8 +21,7 @@ export default function Home() {
         </p>
 
         <p className="text-sm sm:text-base max-w-lg leading-relaxed mb-10 text-gray-600">
-          Browse completed builds, discover parts, compare prices, and share
-          your own ride with a community that speaks horsepower.
+          Discover parts, browse guides, and share completed builds.
         </p>
 
         {/* CTA buttons */}
