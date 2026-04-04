@@ -9,7 +9,11 @@ const nextConfig: NextConfig = {
   },
 
    images: {
-    remotePatterns: [new URL('https://xlyuewakwxekqfsoyjhh.supabase.co/storage/**')],
+    remotePatterns: [
+      new URL('https://xlyuewakwxekqfsoyjhh.supabase.co/storage/**'),
+      new URL('https://i0.wp.com/**'),
+      new URL('https://www.mitamotorsports.com/**'),
+    ],
   },
 
 };
