@@ -3,7 +3,8 @@
 import { useState, useMemo } from "react";
 import type { BuildWithImages } from "./page";
 import GalleryBuildCard from "./GalleryBuildCard";
-import { SlidersHorizontal, X } from "lucide-react";
+import { SlidersHorizontal, X, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 type GalleryClientProps = {
   builds: BuildWithImages[];
@@ -55,13 +56,23 @@ export default function GalleryClient({ builds, makes }: GalleryClientProps) {
           </span>
         </div>
 
-        {/* Mobile filter toggle */}
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="lg:hidden te-border p-2 hover:bg-te-yellow transition-colors"
-        >
-          <SlidersHorizontal size={18} />
-        </button>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/newBuild"
+            className="te-border-thick te-shadow-sm te-card-hover bg-te-yellow text-te-dark font-pixel text-[9px] uppercase px-4 py-2 flex items-center gap-2"
+          >
+            New Build
+            <ArrowRight size={14} strokeWidth={3} />
+          </Link>
+
+          {/* Mobile filter toggle */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="lg:hidden te-border p-2 hover:bg-te-yellow transition-colors"
+          >
+            <SlidersHorizontal size={18} />
+          </button>
+        </div>
       </div>
 
       <div className="flex">

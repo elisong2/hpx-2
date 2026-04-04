@@ -45,6 +45,7 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith('/error') &&
 
     !request.nextUrl.pathname.startsWith('/completedBuilds') &&
+    !request.nextUrl.pathname.startsWith('/parts') &&
     !request.nextUrl.pathname.startsWith('/guides') &&
     !request.nextUrl.pathname.startsWith('/about') &&
     !(request.nextUrl.pathname === '/')
