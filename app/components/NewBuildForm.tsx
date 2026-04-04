@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { newBuildHelper } from "@/utils/helpers";
 
-// fix imports
-export default function NewBuildForm({ makes, models }) {
+type Make = { id: number; name: string };
+type Model = { id: number; name: string; make_id: number };
+
+export default function NewBuildForm({ makes, models }: { makes: Make[]; models: Model[] }) {
   const [selectedMake, setSelectedMake] = useState<number | null>(null);
 
   const filteredModels = selectedMake
