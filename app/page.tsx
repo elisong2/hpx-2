@@ -68,7 +68,7 @@ export default function Home() {
       </section>
 
       {/* ---- Ticker / marquee strip ---- */}
-      <div className="te-border-thick border-l-0 border-r-0 border-b-0 bg-te-dark text-[var(--background)] overflow-hidden py-3">
+      {/* <div className="te-border-thick border-l-0 border-r-0 border-b-0 bg-te-dark text-[var(--background)] overflow-hidden py-3">
         <div className="animate-marquee whitespace-nowrap font-pixel text-[9px] uppercase tracking-widest">
           {Array(4)
             .fill(
@@ -76,7 +76,7 @@ export default function Home() {
             )
             .join("")}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
