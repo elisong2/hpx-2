@@ -10,9 +10,9 @@ export default function About() {
 
       <div className="max-w-3xl mx-auto px-6 py-12 flex flex-col gap-10">
         {/* Status badge */}
-        <div className="te-border te-shadow-sm bg-te-yellow font-pixel text-[9px] uppercase px-3 py-2 self-start">
+        {/* <div className="te-border te-shadow-sm bg-te-yellow font-pixel text-[9px] uppercase px-3 py-2 self-start">
           In Development
-        </div>
+        </div> */}
 
         {/* Intro */}
         <div className="flex flex-col gap-4">
@@ -30,7 +30,7 @@ export default function About() {
         </div>
 
         {/* Roadmap cards */}
-        <div className="flex flex-col gap-3">
+        {/* <div className="flex flex-col gap-3">
           <h2 className="font-pixel text-[11px] uppercase mb-1">Roadmap</h2>
 
           <RoadmapItem
@@ -51,7 +51,7 @@ export default function About() {
             status="planned"
             description="Discuss builds, troubleshoot installs, and share knowledge."
           />
-        </div>
+        </div> */}
 
         {/* Tech stack */}
         <div className="te-border-thick p-5 bg-te-dark text-[var(--background)]">

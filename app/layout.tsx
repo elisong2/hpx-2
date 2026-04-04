@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Press_Start_2P, Space_Mono } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Press_Start_2P,
+  Space_Mono,
+} from "next/font/google";
 import "./globals.css";
 
 import React from "react";
@@ -57,8 +62,6 @@ export default function RootLayout({
         {/* <LoginButton /> */}
         {/* <SupabaseAuthListener /> */}
         {children}
-
-        <footer className="flex items-center">Temp footer</footer>
       </body>
     </html>
   );
