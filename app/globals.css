@@ -1,33 +1,130 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-
-   themes: retro --default, garden;
-
- }
-
-
+  themes: retro --default, garden;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f0e8;
+  --foreground: #1a1a1a;
+
+  /* TE accent palette */
+  --te-orange: #ff6b35;
+  --te-yellow: #ffd23f;
+  --te-cyan: #00e5ff;
+  --te-red: #ff3333;
+  --te-green: #39ff14;
+  --te-grey: #d4d0c8;
+  --te-dark: #1a1a1a;
+  --te-border: #1a1a1a;
 }
 
-@theme inline {  
+@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-te-orange: var(--te-orange);
+  --color-te-yellow: var(--te-yellow);
+  --color-te-cyan: var(--te-cyan);
+  --color-te-red: var(--te-red);
+  --color-te-green: var(--te-green);
+  --color-te-grey: var(--te-grey);
+  --color-te-dark: var(--te-dark);
+  --color-te-border: var(--te-border);
+  --font-pixel: var(--font-pixel);
+  --font-space-mono: var(--font-space-mono);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media () {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-space-mono), "Space Mono", monospace;
+}
+
+/* ---- Teenage Engineering utility classes ---- */
+
+.font-pixel {
+  font-family: var(--font-pixel), "Press Start 2P", cursive;
+}
+
+.te-border {
+  border: 2px solid var(--te-border);
+}
+
+.te-border-thick {
+  border: 3px solid var(--te-border);
+}
+
+.te-shadow {
+  box-shadow: 4px 4px 0px var(--te-dark);
+}
+
+.te-shadow-sm {
+  box-shadow: 2px 2px 0px var(--te-dark);
+}
+
+/* Blocky checkbox override for sidebar filters */
+.te-checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--te-border);
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.te-checkbox:checked {
+  background: var(--te-orange);
+}
+
+.te-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: var(--te-dark);
+}
+
+/* Card hover lift */
+.te-card-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.te-card-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--te-dark);
+}
+
+/* Scrollbar styling for sidebar */
+.te-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.te-scrollbar::-webkit-scrollbar-track {
+  background: var(--te-grey);
+}
+
+.te-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--te-dark);
+}
+
+/* Marquee ticker animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+}
+
+/* Border width utilities (Tailwind v4) */
+.border-t-3 {
+  border-top-width: 3px;
 }

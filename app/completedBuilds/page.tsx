@@ -1,61 +1,80 @@
-import BuildCard from "@/app/components/BuildCard";
 import { createClient } from "@/lib/supabase/server";
-import NewBuildButton from "../components/NewBuildButton";
+import GalleryClient from "./GalleryClient";
+
+export type BuildWithImages = {
+  id: string;
+  title: string;
+  description: string | null;
+  make: string;
+  model: string;
+  username: string;
+  avatar_url: string | null;
+  created_at: string;
+  updated_at: string;
+  coverImage: string | null;
+};
 
 export default async function BuildsPage() {
   const supabase = await createClient();
 
-  const { data: buildsData, error: buildsError } = await supabase
-    .from("builds")
-    .select(
-      `
-      id,
-      title,
-      description,
-      make_id (name),
-      model_id (name),
-      profile_id (
-        username,
-        avatar_url
-      ),
-      created_at,
-      updated_at
-    `,
-    )
-    .order("created_at", { ascending: false });
+  const [buildsResult, makesResult] = await Promise.all([
+    supabase
+      .from("builds")
+      .select(
+        `
+        id,
+        title,
+        description,
+        make_id (name),
+        model_id (name),
+        profile_id (
+          username,
+          avatar_url
+        ),
+        created_at,
+        updated_at
+      `,
+      )
+      .order("created_at", { ascending: false }),
+    supabase.from("makes").select("name").order("name"),
+  ]);
 
-  if (buildsError) {
-    throw new Error(buildsError.message);
-  }
-  console.log("The Builds:", buildsData);
+  if (buildsResult.error) throw new Error(buildsResult.error.message);
+  if (makesResult.error) throw new Error(makesResult.error.message);
 
-  return (
-    <main className="max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 flex justify-center mt-6">
-        Gallery
-      </h1>
+  // Fetch first image for each build as cover
+  const buildsWithImages: BuildWithImages[] = await Promise.all(
+    buildsResult.data.map(async (build) => {
+      const { data: imageData } = await supabase
+        .from("build_images")
+        .select("image_url")
+        .eq("build_id", build.id)
+        .limit(1)
+        .single();
 
-      <NewBuildButton />
+      let coverImage: string | null = null;
+      if (imageData) {
+        coverImage = supabase.storage
+          .from("build-images")
+          .getPublicUrl(imageData.image_url).data.publicUrl;
+      }
 
-      <div
-        className="grid gap-6 px-6 mt-6
-               [grid-template-columns:repeat(auto-fit,minmax(300px,1fr))]"
-      >
-        {buildsData?.map((build) => (
-          <BuildCard
-            key={build.id}
-            id={build.id}
-            title={build.title}
-            description={build.description}
-            username={build.profile_id.username}
-            avatar_url={build.profile_id.avatar_url}
-            make={build.make_id.name}
-            model={build.model_id.name}
-            created_at={build.created_at}
-            updated_at={build.updated_at}
-          />
-        ))}
-      </div>
-    </main>
+      return {
+        id: build.id,
+        title: build.title,
+        description: build.description,
+        make: build.make_id.name,
+        model: build.model_id.name,
+        username: build.profile_id.username,
+        avatar_url: build.profile_id.avatar_url,
+        created_at: build.created_at,
+        updated_at: build.updated_at,
+        coverImage,
+      };
+    }),
   );
+
+  const makes = makesResult.data.map((m) => m.name);
+
+  return <GalleryClient builds={buildsWithImages} makes={makes} />;
 }
