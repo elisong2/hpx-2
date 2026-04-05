@@ -9,6 +9,8 @@ import {
   X,
   ChevronUp,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -37,6 +39,8 @@ export default function PartsClient({
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const perPage = 25;
 
   const toggleFilter = (
     set: Set<string>,
@@ -48,6 +52,7 @@ export default function PartsClient({
       next.has(value) ? next.delete(value) : next.add(value);
       return next;
     });
+    setPage(1);
   };
 
   const clearAll = () => {
@@ -55,6 +60,7 @@ export default function PartsClient({
     setSelectedCategories(new Set());
     setSelectedMakes(new Set());
     setSelectedModels(new Set());
+    setPage(1);
   };
 
   const hasFilters =
@@ -93,6 +99,9 @@ export default function PartsClient({
 
     return result;
   }, [parts, search, selectedCategories, selectedMakes, selectedModels, sortKey, sortDir]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredParts.length / perPage));
+  const paginatedParts = filteredParts.slice((page - 1) * perPage, page * perPage);
 
   const toggleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -158,7 +167,7 @@ export default function PartsClient({
                 type="text"
                 placeholder="Search parts..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => { setSearch(e.target.value); setPage(1); }}
                 className="bg-transparent text-xs w-full outline-none font-bold uppercase placeholder:font-normal placeholder:normal-case"
               />
             </div>
@@ -226,6 +235,7 @@ export default function PartsClient({
               )}
             </div>
           ) : (
+            <>
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b-2 border-te-border">
@@ -258,7 +268,7 @@ export default function PartsClient({
                 </tr>
               </thead>
               <tbody>
-                {filteredParts.map((part) => (
+                {paginatedParts.map((part) => (
                   <tr
                     key={part.id}
                     className="border-b border-te-grey hover:bg-te-grey/30 transition-colors"
@@ -331,6 +341,61 @@ export default function PartsClient({
                 ))}
               </tbody>
             </table>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between px-4 py-4 border-t-2 border-te-border">
+                <span className="font-pixel text-[8px] uppercase text-gray-500">
+                  {(page - 1) * perPage + 1}–{Math.min(page * perPage, filteredParts.length)} of {filteredParts.length}
+                </span>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    disabled={page === 1}
+                    className="te-border p-1.5 hover:bg-te-yellow transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <ChevronLeft size={14} strokeWidth={3} />
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
+                    .reduce<(number | "...")[]>((acc, p, i, arr) => {
+                      if (i > 0 && p - (arr[i - 1] as number) > 1) acc.push("...");
+                      acc.push(p);
+                      return acc;
+                    }, [])
+                    .map((p, i) =>
+                      p === "..." ? (
+                        <span key={`dot-${i}`} className="font-pixel text-[8px] px-1">
+                          ...
+                        </span>
+                      ) : (
+                        <button
+                          key={p}
+                          onClick={() => setPage(p as number)}
+                          className={`te-border font-pixel text-[9px] w-8 h-8 flex items-center justify-center transition-colors ${
+                            page === p
+                              ? "bg-te-orange text-te-dark"
+                              : "hover:bg-te-yellow"
+                          }`}
+                        >
+                          {p}
+                        </button>
+                      ),
+                    )}
+
+                  <button
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={page === totalPages}
+                    className="te-border p-1.5 hover:bg-te-yellow transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <ChevronRight size={14} strokeWidth={3} />
+                  </button>
+                </div>
+              </div>
+            )}
+            </>
           )}
         </section>
       </div>

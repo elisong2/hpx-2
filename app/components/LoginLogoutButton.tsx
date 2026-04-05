@@ -51,7 +51,7 @@ const LoginButton = () => {
   if (user) {
     return (
       <button
-        className="fixed top-4 right-4 z-50"
+        className="fixed top-4 right-4 z-50 cursor-pointer"
         onClick={async () => {
           await supabase.auth.signOut();
           setUser(null);
@@ -65,7 +65,7 @@ const LoginButton = () => {
 
   return (
     <button
-      className="fixed top-4 right-4 z-50"
+      className="fixed top-4 right-4 z-50 cursor-pointer"
       onClick={() => {
         router.push("/account/login");
       }}

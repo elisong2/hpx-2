@@ -25,8 +25,7 @@ const guidesData: MakeSection[] = [
           {
             name: "NSX Prime",
             url: "https://www.nsxprime.com/",
-            description:
-              "The definitive NSX community — forums, tech articles, and marketplace.",
+            description: "NA1/NA2/NC1 NSX help",
           },
         ],
       },
@@ -40,15 +39,14 @@ export default function GuidesPage() {
       {/* Header */}
       <div className="te-border-thick border-t-0 border-l-0 border-r-0 px-6 py-5 flex items-center justify-between">
         <h1 className="font-pixel text-lg uppercase tracking-tight">Guides</h1>
-        <span className="te-border font-pixel text-[9px] uppercase px-2 py-1 bg-te-yellow text-te-dark">
+        {/* <span className="te-border font-pixel text-[9px] uppercase px-2 py-1 bg-te-yellow text-te-dark">
           Coming Soon
-        </span>
+        </span> */}
       </div>
 
       <div className="max-w-3xl mx-auto px-6 py-10 flex flex-col gap-8">
         <p className="text-sm leading-relaxed text-gray-600">
-          Useful resources organized by make and model. More guides and
-          step-by-step install walkthroughs are on the way.
+          Useful resources. More on the way.
         </p>
 
         {guidesData.map((section) => (
@@ -98,7 +96,7 @@ export default function GuidesPage() {
         ))}
 
         {/* Empty state / placeholder for more content */}
-        <div className="te-border-thick border-dashed p-8 flex flex-col items-center gap-3 text-center">
+        {/* <div className="te-border-thick border-dashed p-8 flex flex-col items-center gap-3 text-center">
           <p className="font-pixel text-[10px] uppercase text-gray-400">
             More guides coming soon
           </p>
@@ -106,7 +104,7 @@ export default function GuidesPage() {
             Install walkthroughs, wiring diagrams, and community-written
             tutorials.
           </p>
-        </div>
+        </div> */}
       </div>
     </main>
   );
