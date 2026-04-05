@@ -1,13 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: retro --default, garden;
+  themes: corporate --default;
 }
 
 :root {
-  --background: #f5f0e8;
-  --foreground: #1a1a1a;
-
-  /* TE accent palette */
+  /* ======== TE accent palette (original) ========
   --te-orange: #ff6b35;
   --te-yellow: #ffd23f;
   --te-cyan: #00e5ff;
@@ -16,6 +13,28 @@
   --te-grey: #d4d0c8;
   --te-dark: #1a1a1a;
   --te-border: #1a1a1a;
+  --background: #f5f0e8;
+  --foreground: #1a1a1a;
+  ================================================ */
+
+  /* ======== ANA Livery palette (active) ======== */
+  --ana-white: #ffffff;
+  --ana-grey: #b6b7bb;
+  --ana-dark-blue: #29239b;
+  --ana-light-blue: #00afe3;
+
+  --background: #b6b7bb;     /* ANA grey underbelly */
+  --foreground: #1c1c2e;
+
+  /* Map TE utility variables → ANA colours */
+  --te-orange: #00afe3;      /* primary accent → ANA light blue */
+  --te-yellow: #29239b;      /* secondary accent → ANA dark blue */
+  --te-cyan: #00afe3;        /* cyan stays blue → ANA light blue */
+  --te-red: #29239b;         /* alert/clear → ANA dark blue */
+  --te-green: #00afe3;       /* positive → ANA light blue */
+  --te-grey: #d5d5d9;        /* neutral grey → lighter tint of ANA grey */
+  --te-dark: #1c1c2e;        /* dark tone → near-black with blue tint */
+  --te-border: #29239b;      /* borders → ANA dark blue */
 }
 
 @theme inline {
@@ -29,6 +48,10 @@
   --color-te-grey: var(--te-grey);
   --color-te-dark: var(--te-dark);
   --color-te-border: var(--te-border);
+  --color-ana-white: var(--ana-white);
+  --color-ana-grey: var(--ana-grey);
+  --color-ana-dark-blue: var(--ana-dark-blue);
+  --color-ana-light-blue: var(--ana-light-blue);
   --font-pixel: var(--font-pixel);
   --font-space-mono: var(--font-space-mono);
   --font-sans: var(--font-geist-sans);
@@ -127,4 +150,35 @@ body {
 /* Border width utilities (Tailwind v4) */
 .border-t-3 {
   border-top-width: 3px;
+}
+
+/* ---- ANA Livery overrides ---- */
+
+/* White fuselage for navbar / top header strip */
+nav,
+header,
+nav > *,
+.te-border-thick.border-t-0.border-l-0.border-r-0 {
+  background-color: var(--ana-white);
+}
+
+/* White text on any dark-blue background for readability */
+.bg-te-yellow,
+.bg-te-red,
+.bg-te-dark {
+  color: #ffffff;
+}
+
+/* Also fix hover states that apply dark-blue bg */
+.hover\:bg-te-yellow:hover,
+.hover\:bg-te-red:hover {
+  color: #ffffff;
+}
+
+/* Override text-te-dark when it sits inside a dark-blue parent */
+.bg-te-yellow .text-te-dark,
+.bg-te-yellow.text-te-dark,
+.bg-te-red .text-te-dark,
+.bg-te-red.text-te-dark {
+  color: #ffffff;
 }
