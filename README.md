@@ -8,6 +8,7 @@ Stack:
 
 Current goals:
 
+- comments section for posts
 - Adding parts support for more car models
 - Adding more guides/resources (buyer's guides, repair guides, shops, forums)
 
