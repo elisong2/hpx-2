@@ -1,0 +1,89 @@
+STANDARD CATEGORY KEYWORD MAPPING
+==================================
+Used across all scrapers to infer categories from product names.
+Defined in scrapers/categories.ts (12 standard categories).
+First keyword match wins — order matters.
+
+
+SUSPENSION
+----------
+coilover, spring, shock, sway bar, stabilizer bar, bushing, strut,
+brace, subframe, chassis, control arm, camber, trailing arm, monoball,
+lowering, suspension, seat rail
+
+
+BRAKES
+------
+brake, rotor, caliper, pad, brake line, brake fluid, monoblock
+
+
+ENGINE
+------
+oil, filter, thermostat, coolant, radiator, water pump, timing,
+valve cover, chain, sprocket, vanos, connecting rod, catch tank,
+catch can, oil pan, oil cooler, crank pulley, engine cover, engine lid,
+manifold, cylinder head, head gasket, coil pack, ignition, spark plug,
+turbo, blow off, bov, wastegate, intercooler, fuel pump, fuel injector,
+map sensor, methanol, radiator cap, air cleaner, throttle body, boost
+
+
+EXHAUST
+-------
+exhaust, muffler, catalytic, downpipe, header, catback, flex pipe,
+resonator, defouler
+
+
+INTAKE
+------
+intake, air filter, induction, cold air, ram air, big mouth,
+turbo inlet, symposer
+
+
+DRIVETRAIN
+----------
+clutch, flywheel, transmission, shift, diff, driveshaft, axle,
+cv joint, differential, lsd, motor mount, gear set, gear knob,
+short shifter, reverse lockout, reverse solenoid
+
+
+EXTERIOR
+--------
+headlight, taillight, tail light, bulb, fog light, turn signal,
+mirror, bumper, fender, hood, grille, grill, spoiler, lip, body kit,
+side skirt, diffuser, canard, wing, splitter, aero, emblem, decal,
+vent, scuff plate, tow hook, mud flap, wiper, roof spoiler,
+fin extension, fuel door, duckbill, molding, corner marker,
+door handle, pillar, window molding, antenna, license plate,
+chip guard, condenser guard, carbon fiber style, sash cover,
+garnish, rear panel
+
+
+INTERIOR
+--------
+seat, carpet, trim, dash, steering wheel, gauge, pedal, console,
+dashboard, door sill, door catch, interior, alcantara, soundproofing,
+floor, armrest, leather cover, boss kit, handbrake, accelerator,
+door lining, false floor, seat delete, speaker grill
+
+
+ELECTRICAL
+----------
+led, light kit, wiring, harness, sensor, relay, fuse, battery,
+alternator, starter, hid, ambient light, parking light, abs
+
+
+WHEELS & TIRES
+--------------
+wheel cap, wheel, tire, lug, spacer, hub, valve stem, centering ring
+
+
+SEALS & GASKETS
+---------------
+gasket, seal, o-ring, weatherstrip
+
+
+ACCESSORIES & OTHER (fallback)
+------------------------------
+Anything that doesn't match the above keywords.
+Typically: merch, tools, gift cards, car covers, manuals, plaques,
+stickers, air fresheners, soldering paste, etc.

@@ -18,16 +18,30 @@ export type Part = {
 export default async function PartsPage() {
   const supabase = await createClient();
 
-  const [partsResult, vendorsResult] = await Promise.all([
+  // Fetch parts, vendors, and current user in parallel
+  const [partsResult, vendorsResult, userResult] = await Promise.all([
     supabase
       .from("parts")
       .select("id, name, category, make, model, price, currency, in_stock, product_url, image_url, vendor_id")
       .order("name"),
     supabase.from("vendors").select("id, name"),
+    supabase.auth.getUser(),
   ]);
 
   if (partsResult.error) throw new Error(partsResult.error.message);
   if (vendorsResult.error) throw new Error(vendorsResult.error.message);
+
+  const user = userResult.data?.user ?? null;
+
+  // Fetch user's wishlisted part IDs if logged in
+  let wishlistedPartIds: string[] = [];
+  if (user) {
+    const { data: wishlistData } = await supabase
+      .from("wishlists")
+      .select("part_id")
+      .eq("user_id", user.id);
+    wishlistedPartIds = (wishlistData ?? []).map((w) => w.part_id);
+  }
 
   // Build lookup for vendor names
   const vendorMap: Record<string, string> = {};
@@ -51,6 +65,8 @@ export default async function PartsPage() {
       categories={categories}
       makes={makes}
       models={models}
+      userId={user?.id ?? null}
+      initialWishlist={wishlistedPartIds}
     />
   );
 }

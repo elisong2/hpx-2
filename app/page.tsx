@@ -4,7 +4,6 @@ import { ArrowRight, Wrench, LayoutGrid, BookOpen } from "lucide-react";
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
-
       {/* ---- Hero ---- */}
       <section className="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
         {/* Logo / brand mark */}
@@ -25,17 +24,17 @@ export default function Home() {
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row gap-4">
           <Link
-            href="/completedBuilds"
+            href="/parts"
             className="te-border-thick te-shadow te-card-hover bg-te-yellow text-te-dark font-pixel text-[10px] uppercase px-8 py-4 flex items-center gap-3"
           >
-            Browse Builds
+            Browse Parts
             <ArrowRight size={16} strokeWidth={3} />
           </Link>
           <Link
-            href="/newBuild"
+            href="/completedBuilds"
             className="te-border-thick te-shadow te-card-hover bg-[var(--background)] font-pixel text-[10px] uppercase px-8 py-4 flex items-center gap-3"
           >
-            Share Your Build
+            Browse Builds
             <ArrowRight size={16} strokeWidth={3} />
           </Link>
         </div>
@@ -47,19 +46,19 @@ export default function Home() {
           <FeatureCard
             icon={<LayoutGrid size={24} strokeWidth={2.5} />}
             label="Gallery"
-            description="Explore builds from the community, filtered by make, model, and style."
+            description="Explore builds from the community"
             color="bg-te-cyan"
           />
           <FeatureCard
             icon={<Wrench size={24} strokeWidth={2.5} />}
             label="Parts"
-            description="Compare prices across retailers. Find the best deal on every mod."
+            description="Find parts for your next build"
             color="bg-te-orange"
           />
           <FeatureCard
             icon={<BookOpen size={24} strokeWidth={2.5} />}
             label="Guides"
-            description="Step-by-step install guides written by real builders."
+            description="More useful resources"
             color="bg-te-yellow"
           />
         </div>

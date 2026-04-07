@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import type { Part } from "./page";
 import {
   Search,
   ExternalLink,
+  Heart,
   SlidersHorizontal,
   X,
   ChevronUp,
@@ -13,6 +14,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
+import { createClient } from "@/lib/supabase/client";
 
 type SortKey = "name" | "price";
 type SortDir = "asc" | "desc";
@@ -23,6 +25,8 @@ type PartsClientProps = {
   categories: string[];
   makes: string[];
   models: string[];
+  userId: string | null;
+  initialWishlist: string[];
 };
 
 export default function PartsClient({
@@ -31,8 +35,51 @@ export default function PartsClient({
   categories,
   makes,
   models,
+  userId,
+  initialWishlist,
 }: PartsClientProps) {
   const [search, setSearch] = useState("");
+  const [wishlist, setWishlist] = useState<Set<string>>(new Set(initialWishlist));
+  const supabase = useMemo(() => createClient(), []);
+
+  const toggleWishlist = useCallback(async (partId: string) => {
+    if (!userId) return;
+
+    const isWishlisted = wishlist.has(partId);
+
+    // Optimistic update
+    setWishlist((prev) => {
+      const next = new Set(prev);
+      isWishlisted ? next.delete(partId) : next.add(partId);
+      return next;
+    });
+
+    if (isWishlisted) {
+      const { error } = await supabase
+        .from("wishlists")
+        .delete()
+        .eq("user_id", userId)
+        .eq("part_id", partId);
+      if (error) {
+        // Revert on failure
+        setWishlist((prev) => new Set(prev).add(partId));
+        console.error("Failed to remove from wishlist:", error.message);
+      }
+    } else {
+      const { error } = await supabase
+        .from("wishlists")
+        .insert({ user_id: userId, part_id: partId });
+      if (error) {
+        // Revert on failure
+        setWishlist((prev) => {
+          const next = new Set(prev);
+          next.delete(partId);
+          return next;
+        });
+        console.error("Failed to add to wishlist:", error.message);
+      }
+    }
+  }, [userId, wishlist, supabase]);
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set());
   const [selectedMakes, setSelectedMakes] = useState<Set<string>>(new Set());
   const [selectedModels, setSelectedModels] = useState<Set<string>>(new Set());
@@ -255,15 +302,15 @@ export default function PartsClient({
                     Vendor
                   </th>
                   <th
-                    className="text-right p-3 font-pixel text-[9px] uppercase cursor-pointer select-none hover:text-te-orange transition-colors"
+                    className="text-left p-3 font-pixel text-[9px] uppercase cursor-pointer select-none hover:text-te-orange transition-colors w-28"
                     onClick={() => toggleSort("price")}
                   >
-                    <span className="flex items-center justify-end gap-1">
+                    <span className="flex items-center gap-1">
                       Price <SortIcon column="price" />
                     </span>
                   </th>
-                  <th className="text-center p-3 font-pixel text-[9px] uppercase w-16">
-                    Link
+                  <th className="text-center p-3 font-pixel text-[9px] uppercase w-14">
+                    Save
                   </th>
                 </tr>
               </thead>
@@ -290,11 +337,23 @@ export default function PartsClient({
                       </div>
                     </td>
 
-                    {/* Name */}
+                    {/* Name (links to external product page) */}
                     <td className="p-3">
-                      <span className="font-bold text-xs uppercase leading-snug">
-                        {part.name}
-                      </span>
+                      {part.product_url ? (
+                        <a
+                          href={part.product_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-bold text-xs uppercase leading-snug hover:text-te-orange transition-colors inline-flex items-center gap-1.5"
+                        >
+                          {part.name}
+                          <ExternalLink size={11} strokeWidth={2.5} className="shrink-0 opacity-40" />
+                        </a>
+                      ) : (
+                        <span className="font-bold text-xs uppercase leading-snug">
+                          {part.name}
+                        </span>
+                      )}
                     </td>
 
                     {/* Category */}
@@ -314,7 +373,7 @@ export default function PartsClient({
                     </td>
 
                     {/* Price */}
-                    <td className="p-3 text-right">
+                    <td className="p-3">
                       {part.price !== null ? (
                         <span className="font-pixel text-[10px]">
                           ${part.price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -324,17 +383,27 @@ export default function PartsClient({
                       )}
                     </td>
 
-                    {/* External link */}
+                    {/* Wishlist heart */}
                     <td className="p-3 text-center">
-                      {part.product_url && (
-                        <a
-                          href={part.product_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex te-border p-1.5 hover:bg-te-orange hover:text-te-dark transition-colors"
+                      {userId ? (
+                        <button
+                          onClick={() => toggleWishlist(part.id)}
+                          className={`inline-flex te-border p-1.5 transition-colors cursor-pointer ${
+                            wishlist.has(part.id)
+                              ? "bg-te-orange text-te-dark"
+                              : "hover:bg-te-grey"
+                          }`}
                         >
-                          <ExternalLink size={14} strokeWidth={2.5} />
-                        </a>
+                          <Heart
+                            size={14}
+                            strokeWidth={2.5}
+                            fill={wishlist.has(part.id) ? "currentColor" : "none"}
+                          />
+                        </button>
+                      ) : (
+                        <span className="inline-flex te-border p-1.5 opacity-30 cursor-not-allowed">
+                          <Heart size={14} strokeWidth={2.5} />
+                        </span>
                       )}
                     </td>
                   </tr>

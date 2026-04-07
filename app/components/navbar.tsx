@@ -7,7 +7,7 @@ export default function NavbarDynamic() {
         className="font-pixel text-sm uppercase px-4 py-3 hover:!bg-[var(--te-orange)] transition-colors"
         href="/"
       >
-        HPX-2
+        Home
       </Link>
       <Link
         className="font-pixel text-sm uppercase px-4 py-3 hover:!bg-[var(--te-orange)] transition-colors"

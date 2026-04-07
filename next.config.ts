@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'www.mitamotorsports.com', pathname: '/**' },
       { protocol: 'https', hostname: 'www.fcpeuro.com', pathname: '/**' },
       { protocol: 'https', hostname: 'cdn.shopify.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'cdn1.bigcommerce.com', pathname: '/**' },
     ],
   },
 

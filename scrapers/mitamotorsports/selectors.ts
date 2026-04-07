@@ -29,16 +29,16 @@ export const ALL_CATEGORY_URLS = [
   '/product-category/wheels/accessories-wheels/',
 ];
 
-// NSX only for now — swap to ALL_CATEGORY_URLS for full site scrape
+// S2000 categories
 export const CATEGORY_URLS = [
-  '/product-category/nsx/exterior/',
-  '/product-category/nsx/interior/',
-  '/product-category/nsx/seals/',
-  '/product-category/nsx/stability/',
-  '/product-category/nsx/exhausts/',
-  '/product-category/nsx/maintenance/',
-  '/product-category/nsx/upgrade-kits/',
-  '/product-category/nsx/accessories/',
+  '/product-category/s2000/exterior-s2000/',
+  '/product-category/s2000/interior-s2000/',
+  '/product-category/s2000/seals-s2000/',
+  '/product-category/s2000/stability-s2000/',
+  '/product-category/s2000/exhausts-s2000/',
+  '/product-category/s2000/maintenance-s2000/',
+  '/product-category/s2000/upgrade-kits-s2000/',
+  '/product-category/s2000/accessories-s2000/',
 ];
 
 // WooCommerce + Elementor selectors
