@@ -120,7 +120,7 @@ export default function AccountForm({ user }: { user: User | null }) {
 
       <div>
         <button
-          className="button primary block"
+          className="button primary block cursor-pointer"
           onClick={() => updateProfile({ username, bio })}
           disabled={loading}
         >

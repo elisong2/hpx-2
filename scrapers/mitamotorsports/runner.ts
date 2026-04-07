@@ -55,7 +55,7 @@ const MODEL_MAP: Record<string, { make: string; model: string } | null> = {
   wheels: null, // generic, no specific make/model
 };
 
-// Normalized category mapping — Mita's names → our standard categories
+// Normalized category mapping — Mita's names → standard categories (see scrapers/categories.ts)
 const CATEGORY_MAP: Record<string, string> = {
   'exterior': 'Exterior',
   'interior': 'Interior',
@@ -63,8 +63,8 @@ const CATEGORY_MAP: Record<string, string> = {
   'stability': 'Suspension',
   'exhausts': 'Exhaust',
   'maintenance': 'Engine',
-  'upgrade kits': 'Kits',
-  'accessories': 'Accessories',
+  'upgrade kits': 'Accessories & Other',
+  'accessories': 'Accessories & Other',
   'emblems': 'Exterior',
 };
 

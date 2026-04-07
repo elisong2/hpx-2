@@ -1,11 +1,9 @@
 import Link from "next/link";
-import LoginButton from "./components/LoginLogoutButton";
 import { ArrowRight, Wrench, LayoutGrid, BookOpen } from "lucide-react";
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
-      <LoginButton />
 
       {/* ---- Hero ---- */}
       <section className="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">

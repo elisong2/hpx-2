@@ -36,7 +36,6 @@ export default async function Account() {
 
   return (
     <>
-      <h1>this is the signed in user page</h1>
       <AccountForm user={user} />
     </>
   );

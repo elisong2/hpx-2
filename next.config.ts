@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'xlyuewakwxekqfsoyjhh.supabase.co', pathname: '/storage/**' },
       { protocol: 'https', hostname: 'i0.wp.com', pathname: '/**' },
       { protocol: 'https', hostname: 'www.mitamotorsports.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'www.fcpeuro.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'cdn.shopify.com', pathname: '/**' },
     ],
   },
 

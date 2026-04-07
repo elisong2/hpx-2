@@ -8,9 +8,7 @@ import {
 import "./globals.css";
 
 import React from "react";
-import Link from "next/link";
 import NavbarDynamic from "./components/navbar";
-import SupabaseAuthListener from "./components/authlistener";
 import LoginButton from "./components/LoginLogoutButton";
 
 const geistSans = Geist({
@@ -58,9 +56,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${pressStart.variable} ${spaceMono.variable} antialiased`}
       >
-        <NavbarDynamic />
-        {/* <LoginButton /> */}
-        {/* <SupabaseAuthListener /> */}
+        <div className="te-border-thick border-t-0 border-l-0 border-r-0 flex items-center justify-between">
+          <NavbarDynamic />
+          <div className="px-6">
+            <LoginButton />
+          </div>
+        </div>
         {children}
       </body>
     </html>
