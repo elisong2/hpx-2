@@ -8,6 +8,7 @@ Stack:
 
 Current goals:
 
+- builder page
 - comments section for posts
 - Adding parts support for more car models
 - Adding more guides/resources (buyer's guides, repair guides, shops, forums)
@@ -17,6 +18,9 @@ Current cars supported:
 - NA1/NA2 NSX
 - E46 M3
 - ND Miata
+- Focus ST
+- S2000
+- 11th gen Civic Si
 
 Future cars:
 
@@ -39,6 +43,6 @@ Features:
 
 Limitations:
 
-- Many car parts retailers don't seem to have a dev friendly API to collect prices so web scraping tools will be utilized, slowing down number of support retailers
+- Many car parts retailers don't seem to have a dev friendly API to collect prices so web scraping tools will be utilized, slowing down number of supported retailers
 - Prices may not always be up to date. Will have to schedule scraping to remedy this
 - The site relies on image storage, so for now capacity will be quickly reached on free Supabase

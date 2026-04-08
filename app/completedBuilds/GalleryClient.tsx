@@ -127,11 +127,11 @@ export default function GalleryClient({ builds, makes }: GalleryClientProps) {
                       checked={selectedMakes.has(make)}
                       onChange={() => toggleMake(make)}
                     />
-                    <span className="text-sm font-bold uppercase tracking-wide">
-                      {/* <span className="text-sm font-bold uppercase tracking-wide group-hover:text-te-orange transition-colors"></span> */}
+                    <span className="text-xs font-bold uppercase tracking-wide">
+                      {/* <span className="text-xs font-bold uppercase tracking-wide group-hover:text-te-orange transition-colors"></span> */}
                       {make}
                     </span>
-                    <span className="ml-auto text-xs text-gray-500 font-mono">
+                    <span className="ml-auto text-[10px] text-gray-500 font-mono">
                       {makeCounts[make] || 0}
                     </span>
                   </label>
