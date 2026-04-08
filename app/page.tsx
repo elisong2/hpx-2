@@ -43,7 +43,11 @@ export default function Home() {
       {/* ---- Notice strip ---- */}
       <section className="border-t-3 border-te-border">
         <div className="flex items-center justify-center gap-3 px-6 py-5">
-          <UserPlus size={16} strokeWidth={2.5} className="text-blue-500" />
+          <UserPlus
+            size={16}
+            strokeWidth={2.5}
+            className="text-[var(--ana-dark-blue)]"
+          />
           <p className="font-pixel text-[9px] sm:text-[10px] uppercase tracking-wider">
             Log in to save your favorite parts and connect with others!
           </p>

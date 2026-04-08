@@ -449,7 +449,7 @@ export default function PartsClient({
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex items-center justify-between px-4 py-4 border-t-2 border-te-border">
+                <div className="flex items-center justify-center gap-10 px-4 py-4 border-t-2 border-te-border">
                   <span className="font-pixel text-[8px] uppercase text-gray-500">
                     {(page - 1) * perPage + 1}–
                     {Math.min(page * perPage, filteredParts.length)} of{" "}
