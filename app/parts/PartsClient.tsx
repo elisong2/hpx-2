@@ -39,48 +39,55 @@ export default function PartsClient({
   initialWishlist,
 }: PartsClientProps) {
   const [search, setSearch] = useState("");
-  const [wishlist, setWishlist] = useState<Set<string>>(new Set(initialWishlist));
+  const [wishlist, setWishlist] = useState<Set<string>>(
+    new Set(initialWishlist),
+  );
   const supabase = useMemo(() => createClient(), []);
 
-  const toggleWishlist = useCallback(async (partId: string) => {
-    if (!userId) return;
+  const toggleWishlist = useCallback(
+    async (partId: string) => {
+      if (!userId) return;
 
-    const isWishlisted = wishlist.has(partId);
+      const isWishlisted = wishlist.has(partId);
 
-    // Optimistic update
-    setWishlist((prev) => {
-      const next = new Set(prev);
-      isWishlisted ? next.delete(partId) : next.add(partId);
-      return next;
-    });
+      // Optimistic update
+      setWishlist((prev) => {
+        const next = new Set(prev);
+        isWishlisted ? next.delete(partId) : next.add(partId);
+        return next;
+      });
 
-    if (isWishlisted) {
-      const { error } = await supabase
-        .from("wishlists")
-        .delete()
-        .eq("user_id", userId)
-        .eq("part_id", partId);
-      if (error) {
-        // Revert on failure
-        setWishlist((prev) => new Set(prev).add(partId));
-        console.error("Failed to remove from wishlist:", error.message);
+      if (isWishlisted) {
+        const { error } = await supabase
+          .from("wishlists")
+          .delete()
+          .eq("user_id", userId)
+          .eq("part_id", partId);
+        if (error) {
+          // Revert on failure
+          setWishlist((prev) => new Set(prev).add(partId));
+          console.error("Failed to remove from wishlist:", error.message);
+        }
+      } else {
+        const { error } = await supabase
+          .from("wishlists")
+          .insert({ user_id: userId, part_id: partId });
+        if (error) {
+          // Revert on failure
+          setWishlist((prev) => {
+            const next = new Set(prev);
+            next.delete(partId);
+            return next;
+          });
+          console.error("Failed to add to wishlist:", error.message);
+        }
       }
-    } else {
-      const { error } = await supabase
-        .from("wishlists")
-        .insert({ user_id: userId, part_id: partId });
-      if (error) {
-        // Revert on failure
-        setWishlist((prev) => {
-          const next = new Set(prev);
-          next.delete(partId);
-          return next;
-        });
-        console.error("Failed to add to wishlist:", error.message);
-      }
-    }
-  }, [userId, wishlist, supabase]);
-  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set());
+    },
+    [userId, wishlist, supabase],
+  );
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
+    new Set(),
+  );
   const [selectedMakes, setSelectedMakes] = useState<Set<string>>(new Set());
   const [selectedModels, setSelectedModels] = useState<Set<string>>(new Set());
   const [sortKey, setSortKey] = useState<SortKey>("name");
@@ -124,7 +131,9 @@ export default function PartsClient({
       result = result.filter((p) => p.name.toLowerCase().includes(q));
     }
     if (selectedCategories.size > 0) {
-      result = result.filter((p) => p.category && selectedCategories.has(p.category));
+      result = result.filter(
+        (p) => p.category && selectedCategories.has(p.category),
+      );
     }
     if (selectedMakes.size > 0) {
       result = result.filter((p) => p.make && selectedMakes.has(p.make));
@@ -145,10 +154,21 @@ export default function PartsClient({
     });
 
     return result;
-  }, [parts, search, selectedCategories, selectedMakes, selectedModels, sortKey, sortDir]);
+  }, [
+    parts,
+    search,
+    selectedCategories,
+    selectedMakes,
+    selectedModels,
+    sortKey,
+    sortDir,
+  ]);
 
   const totalPages = Math.max(1, Math.ceil(filteredParts.length / perPage));
-  const paginatedParts = filteredParts.slice((page - 1) * perPage, page * perPage);
+  const paginatedParts = filteredParts.slice(
+    (page - 1) * perPage,
+    page * perPage,
+  );
 
   const toggleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -214,7 +234,10 @@ export default function PartsClient({
                 type="text"
                 placeholder="Search parts..."
                 value={search}
-                onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setPage(1);
+                }}
                 className="bg-transparent text-xs w-full outline-none font-bold uppercase placeholder:font-normal placeholder:normal-case"
               />
             </div>
@@ -238,7 +261,9 @@ export default function PartsClient({
               label="Category"
               options={categories}
               selected={selectedCategories}
-              onToggle={(v) => toggleFilter(selectedCategories, setSelectedCategories, v)}
+              onToggle={(v) =>
+                toggleFilter(selectedCategories, setSelectedCategories, v)
+              }
               parts={parts}
               filterKey="category"
             />
@@ -258,7 +283,9 @@ export default function PartsClient({
               label="Model"
               options={models}
               selected={selectedModels}
-              onToggle={(v) => toggleFilter(selectedModels, setSelectedModels, v)}
+              onToggle={(v) =>
+                toggleFilter(selectedModels, setSelectedModels, v)
+              }
               parts={parts}
               filterKey="model"
             />
@@ -283,187 +310,209 @@ export default function PartsClient({
             </div>
           ) : (
             <>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b-2 border-te-border">
-                  <th className="text-left p-3 w-12"></th>
-                  <th
-                    className="text-left p-3 font-pixel text-[9px] uppercase cursor-pointer select-none hover:text-te-orange transition-colors"
-                    onClick={() => toggleSort("name")}
-                  >
-                    <span className="flex items-center gap-1">
-                      Name <SortIcon column="name" />
-                    </span>
-                  </th>
-                  <th className="text-left p-3 font-pixel text-[9px] uppercase hidden md:table-cell">
-                    Category
-                  </th>
-                  <th className="text-left p-3 font-pixel text-[9px] uppercase hidden lg:table-cell">
-                    Vendor
-                  </th>
-                  <th
-                    className="text-left p-3 font-pixel text-[9px] uppercase cursor-pointer select-none hover:text-te-orange transition-colors w-28"
-                    onClick={() => toggleSort("price")}
-                  >
-                    <span className="flex items-center gap-1">
-                      Price <SortIcon column="price" />
-                    </span>
-                  </th>
-                  <th className="text-center p-3 font-pixel text-[9px] uppercase w-14">
-                    Save
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedParts.map((part) => (
-                  <tr
-                    key={part.id}
-                    className="border-b border-te-grey hover:bg-te-grey/30 transition-colors"
-                  >
-                    {/* Thumbnail */}
-                    <td className="p-2">
-                      <div className="te-border w-10 h-10 bg-te-grey overflow-hidden flex items-center justify-center">
-                        {part.image_url ? (
-                          <Image
-                            src={part.image_url}
-                            alt={part.name}
-                            width={40}
-                            height={40}
-                            className="object-cover w-full h-full"
-                          />
-                        ) : (
-                          <span className="text-[8px] text-gray-400">N/A</span>
-                        )}
-                      </div>
-                    </td>
-
-                    {/* Name (links to external product page) */}
-                    <td className="p-3">
-                      {part.product_url ? (
-                        <a
-                          href={part.product_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-bold text-xs uppercase leading-snug hover:text-te-orange transition-colors inline-flex items-center gap-1.5"
-                        >
-                          {part.name}
-                          <ExternalLink size={11} strokeWidth={2.5} className="shrink-0 opacity-40" />
-                        </a>
-                      ) : (
-                        <span className="font-bold text-xs uppercase leading-snug">
-                          {part.name}
-                        </span>
-                      )}
-                    </td>
-
-                    {/* Category */}
-                    <td className="p-3 hidden md:table-cell">
-                      {part.category && (
-                        <span className="te-border text-[10px] font-bold uppercase px-2 py-0.5 bg-te-yellow text-te-dark">
-                          {part.category}
-                        </span>
-                      )}
-                    </td>
-
-                    {/* Vendor */}
-                    <td className="p-3 hidden lg:table-cell">
-                      <span className="text-xs text-gray-600">
-                        {part.vendor_id ? vendorMap[part.vendor_id] || "—" : "—"}
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b-2 border-te-border">
+                    <th className="text-left p-3 w-12"></th>
+                    <th
+                      className="text-left p-3 font-pixel text-[9px] uppercase cursor-pointer select-none hover:text-te-orange transition-colors"
+                      onClick={() => toggleSort("name")}
+                    >
+                      <span className="flex items-center gap-1">
+                        Name <SortIcon column="name" />
                       </span>
-                    </td>
-
-                    {/* Price */}
-                    <td className="p-3">
-                      {part.price !== null ? (
-                        <span className="font-pixel text-[10px]">
-                          ${part.price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </span>
-                      ) : (
-                        <span className="text-xs text-gray-400">N/A</span>
-                      )}
-                    </td>
-
-                    {/* Wishlist heart */}
-                    <td className="p-3 text-center">
-                      {userId ? (
-                        <button
-                          onClick={() => toggleWishlist(part.id)}
-                          className={`inline-flex te-border p-1.5 transition-colors cursor-pointer ${
-                            wishlist.has(part.id)
-                              ? "bg-te-orange text-te-dark"
-                              : "hover:bg-te-grey"
-                          }`}
-                        >
-                          <Heart
-                            size={14}
-                            strokeWidth={2.5}
-                            fill={wishlist.has(part.id) ? "currentColor" : "none"}
-                          />
-                        </button>
-                      ) : (
-                        <span className="inline-flex te-border p-1.5 opacity-30 cursor-not-allowed">
-                          <Heart size={14} strokeWidth={2.5} />
-                        </span>
-                      )}
-                    </td>
+                    </th>
+                    <th className="text-left p-3 font-pixel text-[9px] uppercase hidden md:table-cell">
+                      Category
+                    </th>
+                    <th className="text-left p-3 font-pixel text-[9px] uppercase hidden lg:table-cell">
+                      Vendor
+                    </th>
+                    <th
+                      className="text-left p-3 font-pixel text-[9px] uppercase cursor-pointer select-none hover:text-te-orange transition-colors w-28"
+                      onClick={() => toggleSort("price")}
+                    >
+                      <span className="flex items-center gap-1">
+                        Price <SortIcon column="price" />
+                      </span>
+                    </th>
+                    <th className="text-center p-3 font-pixel text-[9px] uppercase w-14">
+                      Save
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {paginatedParts.map((part) => (
+                    <tr
+                      key={part.id}
+                      className="border-b border-te-grey hover:bg-te-grey/30 transition-colors"
+                    >
+                      {/* Thumbnail */}
+                      <td className="p-2">
+                        <div className="te-border w-10 h-10 bg-te-grey overflow-hidden flex items-center justify-center">
+                          {part.image_url ? (
+                            <Image
+                              src={part.image_url}
+                              alt={part.name}
+                              width={40}
+                              height={40}
+                              className="object-cover w-full h-full"
+                            />
+                          ) : (
+                            <span className="text-[8px] text-gray-400">
+                              N/A
+                            </span>
+                          )}
+                        </div>
+                      </td>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-between px-4 py-4 border-t-2 border-te-border">
-                <span className="font-pixel text-[8px] uppercase text-gray-500">
-                  {(page - 1) * perPage + 1}–{Math.min(page * perPage, filteredParts.length)} of {filteredParts.length}
-                </span>
+                      {/* Name (links to external product page) */}
+                      <td className="p-3">
+                        {part.product_url ? (
+                          <a
+                            href={part.product_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-bold text-xs uppercase leading-snug hover:text-te-orange transition-colors inline-flex items-center gap-1.5"
+                          >
+                            {part.name}
+                          </a>
+                        ) : (
+                          <span className="font-bold text-xs uppercase leading-snug">
+                            {part.name}
+                          </span>
+                        )}
+                      </td>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    disabled={page === 1}
-                    className="te-border p-1.5 hover:bg-te-yellow transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    <ChevronLeft size={14} strokeWidth={3} />
-                  </button>
+                      {/* Category */}
+                      <td className="p-3 hidden md:table-cell">
+                        {part.category && (
+                          <span className="te-border text-[10px] font-bold uppercase px-2 py-0.5 bg-te-yellow text-te-dark">
+                            {part.category}
+                          </span>
+                        )}
+                      </td>
 
-                  {Array.from({ length: totalPages }, (_, i) => i + 1)
-                    .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
-                    .reduce<(number | "...")[]>((acc, p, i, arr) => {
-                      if (i > 0 && p - (arr[i - 1] as number) > 1) acc.push("...");
-                      acc.push(p);
-                      return acc;
-                    }, [])
-                    .map((p, i) =>
-                      p === "..." ? (
-                        <span key={`dot-${i}`} className="font-pixel text-[8px] px-1">
-                          ...
+                      {/* Vendor */}
+                      <td className="p-3 hidden lg:table-cell">
+                        <span className="text-xs text-gray-600">
+                          {part.vendor_id
+                            ? vendorMap[part.vendor_id] || "—"
+                            : "—"}
                         </span>
-                      ) : (
-                        <button
-                          key={p}
-                          onClick={() => setPage(p as number)}
-                          className={`te-border font-pixel text-[9px] w-8 h-8 flex items-center justify-center transition-colors ${
-                            page === p
-                              ? "bg-te-orange text-te-dark"
-                              : "hover:bg-te-yellow"
-                          }`}
-                        >
-                          {p}
-                        </button>
-                      ),
-                    )}
+                      </td>
 
-                  <button
-                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={page === totalPages}
-                    className="te-border p-1.5 hover:bg-te-yellow transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    <ChevronRight size={14} strokeWidth={3} />
-                  </button>
+                      {/* Price */}
+                      <td className="p-3">
+                        {part.price !== null ? (
+                          <span className="font-pixel text-[10px]">
+                            $
+                            {part.price.toLocaleString("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
+                          </span>
+                        ) : (
+                          <span className="text-xs text-gray-400">N/A</span>
+                        )}
+                      </td>
+
+                      {/* Wishlist heart */}
+                      <td className="p-3 text-center">
+                        {userId ? (
+                          <button
+                            onClick={() => toggleWishlist(part.id)}
+                            className={`inline-flex te-border p-1.5 transition-colors cursor-pointer ${
+                              wishlist.has(part.id)
+                                ? "bg-te-orange text-te-dark"
+                                : "hover:bg-te-grey"
+                            }`}
+                          >
+                            <Heart
+                              size={14}
+                              strokeWidth={2.5}
+                              fill={
+                                wishlist.has(part.id) ? "currentColor" : "none"
+                              }
+                            />
+                          </button>
+                        ) : (
+                          <span className="inline-flex te-border p-1.5 opacity-30 cursor-not-allowed">
+                            <Heart size={14} strokeWidth={2.5} />
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between px-4 py-4 border-t-2 border-te-border">
+                  <span className="font-pixel text-[8px] uppercase text-gray-500">
+                    {(page - 1) * perPage + 1}–
+                    {Math.min(page * perPage, filteredParts.length)} of{" "}
+                    {filteredParts.length}
+                  </span>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                      className="te-border p-1.5 hover:bg-te-yellow transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <ChevronLeft size={14} strokeWidth={3} />
+                    </button>
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                      .filter(
+                        (p) =>
+                          p === 1 ||
+                          p === totalPages ||
+                          Math.abs(p - page) <= 1,
+                      )
+                      .reduce<(number | "...")[]>((acc, p, i, arr) => {
+                        if (i > 0 && p - (arr[i - 1] as number) > 1)
+                          acc.push("...");
+                        acc.push(p);
+                        return acc;
+                      }, [])
+                      .map((p, i) =>
+                        p === "..." ? (
+                          <span
+                            key={`dot-${i}`}
+                            className="font-pixel text-[8px] px-1"
+                          >
+                            ...
+                          </span>
+                        ) : (
+                          <button
+                            key={p}
+                            onClick={() => setPage(p as number)}
+                            className={`te-border font-pixel text-[9px] w-8 h-8 flex items-center justify-center transition-colors ${
+                              page === p
+                                ? "bg-te-orange text-te-dark"
+                                : "hover:bg-te-yellow"
+                            }`}
+                          >
+                            {p}
+                          </button>
+                        ),
+                      )}
+
+                    <button
+                      onClick={() =>
+                        setPage((p) => Math.min(totalPages, p + 1))
+                      }
+                      disabled={page === totalPages}
+                      className="te-border p-1.5 hover:bg-te-yellow transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <ChevronRight size={14} strokeWidth={3} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             </>
           )}
         </section>
@@ -504,14 +553,18 @@ function FilterGroup({
       </h3>
       <div className="space-y-2">
         {options.map((opt) => (
-          <label key={opt} className="flex items-center gap-3 cursor-pointer group py-0.5">
+          <label
+            key={opt}
+            className="flex items-center gap-3 cursor-pointer group py-0.5"
+          >
             <input
               type="checkbox"
               className="te-checkbox"
               checked={selected.has(opt)}
               onChange={() => onToggle(opt)}
             />
-            <span className="text-xs font-bold uppercase tracking-wide group-hover:text-te-orange transition-colors">
+            <span className="text-xs font-bold uppercase tracking-wide">
+              {/* <span className="text-xs font-bold uppercase tracking-wide group-hover:text-te-orange transition-colors"></span> */}
               {opt}
             </span>
             <span className="ml-auto text-[10px] text-gray-500 font-mono">

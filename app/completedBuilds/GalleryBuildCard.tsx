@@ -37,9 +37,9 @@ export default function GalleryBuildCard({ build }: Props) {
         )}
 
         {/* Make badge overlay */}
-        <div className="absolute top-2 left-2 bg-te-orange te-border font-pixel text-[8px] px-2 py-1 uppercase text-te-dark">
+        {/* <div className="absolute top-2 left-2 bg-te-orange te-border font-pixel text-[8px] px-2 py-1 uppercase text-te-dark">
           {build.make}
-        </div>
+        </div> */}
       </div>
 
       {/* Info section */}
@@ -70,7 +70,9 @@ export default function GalleryBuildCard({ build }: Props) {
         <div className="mt-auto pt-3 border-t-2 border-te-border flex items-center justify-between">
           <div className="flex items-center gap-2">
             <User size={12} strokeWidth={3} />
-            <span className="text-xs font-bold uppercase">{build.username}</span>
+            <span className="text-xs font-bold uppercase">
+              {build.username}
+            </span>
           </div>
           <div className="flex items-center gap-1.5 text-gray-500">
             <Calendar size={11} />

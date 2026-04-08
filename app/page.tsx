@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Wrench, LayoutGrid, BookOpen } from "lucide-react";
+import { ArrowRight, UserPlus } from "lucide-react";
 
 export default function Home() {
   return (
@@ -40,64 +40,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- Feature cards strip ---- */}
+      {/* ---- Notice strip ---- */}
       <section className="border-t-3 border-te-border">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-te-border border-x-0">
-          <FeatureCard
-            icon={<LayoutGrid size={24} strokeWidth={2.5} />}
-            label="Gallery"
-            description="Explore builds from the community"
-            color="bg-te-cyan"
-          />
-          <FeatureCard
-            icon={<Wrench size={24} strokeWidth={2.5} />}
-            label="Parts"
-            description="Find parts for your next build"
-            color="bg-te-orange"
-          />
-          <FeatureCard
-            icon={<BookOpen size={24} strokeWidth={2.5} />}
-            label="Guides"
-            description="More useful resources"
-            color="bg-te-yellow"
-          />
+        <div className="flex items-center justify-center gap-3 px-6 py-5">
+          <UserPlus size={16} strokeWidth={2.5} className="text-blue-500" />
+          <p className="font-pixel text-[9px] sm:text-[10px] uppercase tracking-wider">
+            Log in to save your favorite parts and connect with others!
+          </p>
         </div>
       </section>
-
-      {/* ---- Ticker / marquee strip ---- */}
-      {/* <div className="te-border-thick border-l-0 border-r-0 border-b-0 bg-te-dark text-[var(--background)] overflow-hidden py-3">
-        <div className="animate-marquee whitespace-nowrap font-pixel text-[9px] uppercase tracking-widest">
-          {Array(4)
-            .fill(
-              "HPX-2 \u2022 Browse \u2022 Build \u2022 Compare \u2022 Share \u2022 ",
-            )
-            .join("")}
-        </div>
-      </div> */}
-    </div>
-  );
-}
-
-function FeatureCard({
-  icon,
-  label,
-  description,
-  color,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  description: string;
-  color: string;
-}) {
-  return (
-    <div className="p-6 flex flex-col gap-3">
-      <div
-        className={`te-border w-10 h-10 ${color} flex items-center justify-center`}
-      >
-        {icon}
-      </div>
-      <h3 className="font-pixel text-[11px] uppercase">{label}</h3>
-      <p className="text-xs leading-relaxed text-gray-600">{description}</p>
     </div>
   );
 }
