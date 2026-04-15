@@ -17,7 +17,10 @@ export default function GalleryBuildCard({ build }: Props) {
   });
 
   return (
-    <div className="te-border-thick te-shadow te-card-hover bg-[var(--background)] flex flex-col">
+    <Link
+      href={`/completedBuilds/${build.id}`}
+      className="te-border-thick te-shadow te-card-hover bg-[var(--background)] flex flex-col"
+    >
       {/* Cover image */}
       <div className="relative w-full aspect-[16/10] bg-te-grey overflow-hidden border-b-[3px] border-te-border">
         {build.coverImage ? (
@@ -80,6 +83,6 @@ export default function GalleryBuildCard({ build }: Props) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

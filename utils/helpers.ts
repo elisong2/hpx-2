@@ -61,6 +61,25 @@ export async function newBuildHelper(formData: FormData) {
     .insert(imageRows);
 
   if (imageError) throw imageError;
+
+  // Insert parts list (if any)
+  const rawPartLinks = formData.getAll("part_link") as string[];
+  const partLinks = rawPartLinks
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+
+  if (partLinks.length > 0) {
+    const partRows = partLinks.map((part_link) => ({
+      builds_id: buildId,
+      part_link,
+    }));
+
+    const { error: partsError } = await supabase
+      .from("builds_parts")
+      .insert(partRows);
+
+    if (partsError) throw partsError;
+  }
 }
 
 
